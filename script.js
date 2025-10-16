@@ -9,7 +9,8 @@ class FloatingNavigation {
             especialidades: document.querySelector('#especialidades'),
             expertos: document.querySelector('#expertos'),
             proyectos: document.querySelector('#proyectos'),
-            clientes: document.querySelector('#clientes')
+            clientes: document.querySelector('#clientes'),
+            contacto: document.querySelector('#contact')
         };
         
         this.init();

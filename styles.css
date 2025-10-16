@@ -281,7 +281,7 @@ body {
 /* Language Toggle */
 .language-toggle {
     position: fixed;
-    top: var(--space-xl);
+    bottom: var(--space-xl);
     right: var(--space-xl);
     z-index: 1000;
     background: hsla(0, 0%, 100%, 0.9);
@@ -1040,7 +1040,7 @@ section {
     }
     
     .language-toggle {
-        top: 1rem;
+        bottom: 1rem;
         right: 1rem;
     }
     
