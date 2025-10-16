@@ -13,6 +13,7 @@ class FloatingNavigation {
             contacto: document.querySelector('#contact')
         };
         
+        this.imageLoader = new DynamicImageLoader();
         this.init();
     }
     
@@ -72,23 +73,34 @@ class FloatingNavigation {
     
     async loadProjects() {
         try {
-            // This would typically fetch from an API or file listing
-            // For now, we'll create placeholder projects
             const projectsGrid = document.querySelector('.projects-grid');
             if (projectsGrid) {
-                const projectImages = [
-                    'proyecto-cnc-1.jpg',
-                    'proyecto-automatizacion-1.jpg', 
-                    'proyecto-soldadura-1.jpg',
-                    'proyecto-cnc-2.jpg',
-                    'proyecto-automatizacion-2.jpg',
-                    'proyecto-soldadura-2.jpg'
-                ];
+                // Use dynamic image loader
+                const images = await this.imageLoader.loadImagesWithFallback();
+                const projectImages = images.projects || [];
                 
-                projectImages.forEach((imageName, index) => {
-                    const projectCard = this.createProjectCard(imageName, index);
-                    projectsGrid.appendChild(projectCard);
-                });
+                if (projectImages.length > 0) {
+                    projectImages.forEach((imageSrc, index) => {
+                        const imageName = imageSrc.split('/').pop();
+                        const projectCard = this.createProjectCard(imageName, index);
+                        projectsGrid.appendChild(projectCard);
+                    });
+                } else {
+                    // Fallback to placeholder projects
+                    const fallbackImages = [
+                        'proyecto-cnc-1.jpg',
+                        'proyecto-automatizacion-1.jpg', 
+                        'proyecto-soldadura-1.jpg',
+                        'proyecto-cnc-2.jpg',
+                        'proyecto-automatizacion-2.jpg',
+                        'proyecto-soldadura-2.jpg'
+                    ];
+                    
+                    fallbackImages.forEach((imageName, index) => {
+                        const projectCard = this.createProjectCard(imageName, index);
+                        projectsGrid.appendChild(projectCard);
+                    });
+                }
                 
                 // Animate projects on scroll
                 this.observeProjects();
@@ -136,24 +148,39 @@ class FloatingNavigation {
         try {
             const clientsTrack = document.querySelector('.clients-track');
             if (clientsTrack) {
-                const clientLogos = [
-                    'cliente-1.png',
-                    'cliente-2.png',
-                    'cliente-3.png',
-                    'cliente-4.png',
-                    'cliente-5.png',
-                    'cliente-6.png',
-                    'cliente-7.png',
-                    'cliente-8.png'
-                ];
+                // Use dynamic image loader
+                const images = await this.imageLoader.loadImagesWithFallback();
+                const clientImages = images.clients || [];
                 
-                // Create duplicate set for seamless loop
-                const allLogos = [...clientLogos, ...clientLogos];
-                
-                allLogos.forEach((logoName, index) => {
-                    const clientLogo = this.createClientLogo(logoName, index);
-                    clientsTrack.appendChild(clientLogo);
-                });
+                if (clientImages.length > 0) {
+                    // Create duplicate set for seamless loop
+                    const allLogos = [...clientImages, ...clientImages];
+                    
+                    allLogos.forEach((imageSrc, index) => {
+                        const logoName = imageSrc.split('/').pop();
+                        const clientLogo = this.createClientLogo(logoName, index);
+                        clientsTrack.appendChild(clientLogo);
+                    });
+                } else {
+                    // Fallback to placeholder clients
+                    const fallbackLogos = [
+                        'cliente-1.png',
+                        'cliente-2.png',
+                        'cliente-3.png',
+                        'cliente-4.png',
+                        'cliente-5.png',
+                        'cliente-6.png',
+                        'cliente-7.png',
+                        'cliente-8.png'
+                    ];
+                    
+                    const allLogos = [...fallbackLogos, ...fallbackLogos];
+                    
+                    allLogos.forEach((logoName, index) => {
+                        const clientLogo = this.createClientLogo(logoName, index);
+                        clientsTrack.appendChild(clientLogo);
+                    });
+                }
             }
         } catch (error) {
             console.log('Client logos will be loaded when images are uploaded');

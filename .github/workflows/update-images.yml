@@ -1,0 +1,62 @@
+name: Update Image List
+
+on:
+  push:
+    paths:
+      - 'images/**'
+  workflow_dispatch:
+
+jobs:
+  update-images:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Update image list
+      run: |
+        # Create images.json with current images
+        echo '{' > images/images.json
+        echo '  "experts": [' >> images/images.json
+        
+        # Add expert images
+        if [ -d "images/experts" ]; then
+          expert_files=$(find images/experts -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" -o -name "*.webp" | sed 's|images/experts/||' | sort)
+          if [ -n "$expert_files" ]; then
+            echo "$expert_files" | sed 's/^/    "/' | sed 's/$/",/' | sed '$s/,$//' >> images/images.json
+          fi
+        fi
+        echo '  ],' >> images/images.json
+        
+        # Add project images
+        echo '  "projects": [' >> images/images.json
+        if [ -d "images/projects" ]; then
+          project_files=$(find images/projects -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" -o -name "*.webp" | sed 's|images/projects/||' | sort)
+          if [ -n "$project_files" ]; then
+            echo "$project_files" | sed 's/^/    "/' | sed 's/$/",/' | sed '$s/,$//' >> images/images.json
+          fi
+        fi
+        echo '  ],' >> images/images.json
+        
+        # Add client images
+        echo '  "clients": [' >> images/images.json
+        if [ -d "images/clients" ]; then
+          client_files=$(find images/clients -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" -o -name "*.webp" | sed 's|images/clients/||' | sort)
+          if [ -n "$client_files" ]; then
+            echo "$client_files" | sed 's/^/    "/' | sed 's/$/",/' | sed '$s/,$//' >> images/images.json
+          fi
+        fi
+        echo '  ]' >> images/images.json
+        echo '}' >> images/images.json
+    
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add images/images.json
+        git diff --staged --quiet || git commit -m "Auto-update image list"
+        git push
+
