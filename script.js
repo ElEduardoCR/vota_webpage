@@ -1,3 +1,123 @@
+// Floating Navigation
+class FloatingNavigation {
+    constructor() {
+        this.navItems = document.querySelectorAll('.nav-item');
+        this.navSlider = document.querySelector('.nav-slider');
+        this.sections = {
+            inicio: document.querySelector('#hero'),
+            proyectos: document.querySelector('#proyectos')
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        this.setupNavigation();
+        this.updateSliderPosition();
+        this.loadProjects();
+    }
+    
+    setupNavigation() {
+        this.navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const section = item.dataset.section;
+                this.navigateToSection(section);
+                this.setActiveNav(item);
+            });
+        });
+    }
+    
+    navigateToSection(section) {
+        if (this.sections[section]) {
+            this.sections[section].scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }
+    
+    setActiveNav(activeItem) {
+        this.navItems.forEach(item => item.classList.remove('active'));
+        activeItem.classList.add('active');
+        this.updateSliderPosition();
+    }
+    
+    updateSliderPosition() {
+        const activeItem = document.querySelector('.nav-item.active');
+        if (activeItem && this.navSlider) {
+            const itemRect = activeItem.getBoundingClientRect();
+            const containerRect = activeItem.parentElement.getBoundingClientRect();
+            const left = itemRect.left - containerRect.left;
+            const width = itemRect.width;
+            
+            this.navSlider.style.left = `${left}px`;
+            this.navSlider.style.width = `${width}px`;
+        }
+    }
+    
+    async loadProjects() {
+        try {
+            // This would typically fetch from an API or file listing
+            // For now, we'll create placeholder projects
+            const projectsGrid = document.querySelector('.projects-grid');
+            if (projectsGrid) {
+                const projectImages = [
+                    'proyecto-cnc-1.jpg',
+                    'proyecto-automatizacion-1.jpg', 
+                    'proyecto-soldadura-1.jpg',
+                    'proyecto-cnc-2.jpg',
+                    'proyecto-automatizacion-2.jpg',
+                    'proyecto-soldadura-2.jpg'
+                ];
+                
+                projectImages.forEach((imageName, index) => {
+                    const projectCard = this.createProjectCard(imageName, index);
+                    projectsGrid.appendChild(projectCard);
+                });
+                
+                // Animate projects on scroll
+                this.observeProjects();
+            }
+        } catch (error) {
+            console.log('Projects will be loaded when images are uploaded');
+        }
+    }
+    
+    createProjectCard(imageName, index) {
+        const card = document.createElement('div');
+        card.className = 'project-card animate-on-scroll scale-in';
+        
+        card.innerHTML = `
+            <img src="images/projects/${imageName}" alt="Proyecto ${index + 1}" class="project-image" onerror="this.style.display='none';">
+            <div class="project-info">
+                <h3 class="project-title" data-es="Proyecto de Manufactura ${index + 1}" data-en="Manufacturing Project ${index + 1}">
+                    Proyecto de Manufactura ${index + 1}
+                </h3>
+                <p class="project-description" data-es="Ejemplo de nuestro trabajo en manufactura de precisión" data-en="Example of our precision manufacturing work">
+                    Ejemplo de nuestro trabajo en manufactura de precisión
+                </p>
+            </div>
+        `;
+        
+        return card;
+    }
+    
+    observeProjects() {
+        const projectCards = document.querySelectorAll('.project-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('animate');
+                    }, 100);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        projectCards.forEach(card => observer.observe(card));
+    }
+}
+
 // Language Toggle Functionality
 class LanguageToggle {
     constructor() {
@@ -334,6 +454,7 @@ class PerformanceOptimizer {
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize all components
+    new FloatingNavigation();
     new LanguageToggle();
     new ScrollAnimations();
     new HoverEffects();
