@@ -5,7 +5,11 @@ class FloatingNavigation {
         this.navSlider = document.querySelector('.nav-slider');
         this.sections = {
             inicio: document.querySelector('#hero'),
-            proyectos: document.querySelector('#proyectos')
+            mision: document.querySelector('#mision'),
+            especialidades: document.querySelector('#especialidades'),
+            expertos: document.querySelector('#expertos'),
+            proyectos: document.querySelector('#proyectos'),
+            clientes: document.querySelector('#clientes')
         };
         
         this.init();
@@ -15,6 +19,7 @@ class FloatingNavigation {
         this.setupNavigation();
         this.updateSliderPosition();
         this.loadProjects();
+        this.loadClients();
     }
     
     setupNavigation() {
@@ -115,6 +120,45 @@ class FloatingNavigation {
         }, { threshold: 0.1 });
         
         projectCards.forEach(card => observer.observe(card));
+    }
+    
+    async loadClients() {
+        try {
+            const clientsTrack = document.querySelector('.clients-track');
+            if (clientsTrack) {
+                const clientLogos = [
+                    'cliente-1.png',
+                    'cliente-2.png',
+                    'cliente-3.png',
+                    'cliente-4.png',
+                    'cliente-5.png',
+                    'cliente-6.png',
+                    'cliente-7.png',
+                    'cliente-8.png'
+                ];
+                
+                // Create duplicate set for seamless loop
+                const allLogos = [...clientLogos, ...clientLogos];
+                
+                allLogos.forEach((logoName, index) => {
+                    const clientLogo = this.createClientLogo(logoName, index);
+                    clientsTrack.appendChild(clientLogo);
+                });
+            }
+        } catch (error) {
+            console.log('Client logos will be loaded when images are uploaded');
+        }
+    }
+    
+    createClientLogo(logoName, index) {
+        const logo = document.createElement('div');
+        logo.className = 'client-logo';
+        
+        logo.innerHTML = `
+            <img src="images/clients/${logoName}" alt="Cliente ${index + 1}" onerror="this.style.display='none';">
+        `;
+        
+        return logo;
     }
 }
 
