@@ -16,6 +16,10 @@ class FloatingNavigation {
     }
     
     init() {
+        console.log('Initializing FloatingNavigation...');
+        console.log('Nav items found:', this.navItems.length);
+        console.log('Sections found:', Object.keys(this.sections).filter(key => this.sections[key]));
+        
         this.setupNavigation();
         this.updateSliderPosition();
         this.loadProjects();
@@ -33,11 +37,16 @@ class FloatingNavigation {
     }
     
     navigateToSection(section) {
+        console.log('Navigating to section:', section);
         if (this.sections[section]) {
+            console.log('Section found, scrolling to:', this.sections[section]);
             this.sections[section].scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
+        } else {
+            console.error('Section not found:', section);
+            console.log('Available sections:', Object.keys(this.sections));
         }
     }
     
@@ -498,13 +507,16 @@ class PerformanceOptimizer {
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize all components
-    new FloatingNavigation();
-    new LanguageToggle();
-    new ScrollAnimations();
-    new HoverEffects();
-    new SmoothScroll();
-    new PerformanceOptimizer();
+    // Small delay to ensure all elements are ready
+    setTimeout(() => {
+        // Initialize all components
+        new FloatingNavigation();
+        new LanguageToggle();
+        new ScrollAnimations();
+        new HoverEffects();
+        new SmoothScroll();
+        new PerformanceOptimizer();
+    }, 100);
     
     // Add loading animation completion
     document.body.classList.add('loaded');
