@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - VOXA Image Loading</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        img { max-width: 200px; margin: 10px; border: 1px solid #ddd; }
+        pre { background: #f5f5f5; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Debug - VOXA Image Loading System</h1>
+    
+    <div class="debug-section">
+        <h2>1. Testing JSON Loading</h2>
+        <div id="json-status">Loading...</div>
+        <pre id="json-content"></pre>
+    </div>
+    
+    <div class="debug-section">
+        <h2>2. Testing Image Loading</h2>
+        <div id="image-status">Loading...</div>
+        <div id="image-results"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>3. Dynamic Image Loader Test</h2>
+        <div id="loader-status">Loading...</div>
+        <div id="loader-results"></div>
+    </div>
+
+    <script src="image-loader.js"></script>
+    <script>
+        // Debug script
+        async function debugImageLoading() {
+            console.log('Starting debug...');
+            
+            // Test 1: JSON Loading
+            try {
+                const response = await fetch('images/images.json');
+                const jsonData = await response.json();
+                document.getElementById('json-status').innerHTML = '<span class="success">✅ JSON loaded successfully</span>';
+                document.getElementById('json-content').textContent = JSON.stringify(jsonData, null, 2);
+                console.log('JSON loaded:', jsonData);
+            } catch (error) {
+                document.getElementById('json-status').innerHTML = '<span class="error">❌ JSON loading failed: ' + error.message + '</span>';
+                console.error('JSON loading failed:', error);
+            }
+            
+            // Test 2: Direct Image Loading
+            const imageUrls = [
+                'images/projects/soudage-a-larc.jpg',
+                'images/clients/351490060_1812936962436986_5525504241204018886_n.jpg'
+            ];
+            
+            let imageResults = '<h3>Direct Image Tests:</h3>';
+            for (const url of imageUrls) {
+                try {
+                    const img = new Image();
+                    await new Promise((resolve, reject) => {
+                        img.onload = () => resolve();
+                        img.onerror = () => reject(new Error('Failed to load ' + url));
+                        img.src = url;
+                    });
+                    imageResults += `<div class="success">✅ ${url} - Loaded successfully</div><img src="${url}" alt="Test image">`;
+                    console.log('Image loaded:', url);
+                } catch (error) {
+                    imageResults += `<div class="error">❌ ${url} - Failed: ${error.message}</div>`;
+                    console.error('Image failed:', url, error);
+                }
+            }
+            document.getElementById('image-status').innerHTML = '<span class="success">✅ Image tests completed</span>';
+            document.getElementById('image-results').innerHTML = imageResults;
+            
+            // Test 3: Dynamic Image Loader
+            try {
+                const loader = new DynamicImageLoader();
+                const results = await loader.loadImagesWithFallback();
+                document.getElementById('loader-status').innerHTML = '<span class="success">✅ DynamicImageLoader completed</span>';
+                document.getElementById('loader-results').innerHTML = '<pre>' + JSON.stringify(results, null, 2) + '</pre>';
+                console.log('DynamicImageLoader results:', results);
+            } catch (error) {
+                document.getElementById('loader-status').innerHTML = '<span class="error">❌ DynamicImageLoader failed: ' + error.message + '</span>';
+                console.error('DynamicImageLoader failed:', error);
+            }
+        }
+        
+        // Run debug when page loads
+        document.addEventListener('DOMContentLoaded', debugImageLoading);
+    </script>
+</body>
+</html>

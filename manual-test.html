@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Image Test</title>
+    <style>
+        .project-card { border: 1px solid #ccc; margin: 10px; padding: 10px; display: inline-block; }
+        .project-image { max-width: 200px; height: auto; }
+    </style>
+</head>
+<body>
+    <h1>Manual Image Test</h1>
+    
+    <h2>Direct Image Test:</h2>
+    <img src="images/projects/soudage-a-larc.jpg" alt="Project 1" class="project-image" onerror="this.style.display='none'; console.log('Image failed to load');">
+    
+    <h2>Client Image Test:</h2>
+    <img src="images/clients/351490060_1812936962436986_5525504241204018886_n.jpg" alt="Client 1" class="project-image" onerror="this.style.display='none'; console.log('Image failed to load');">
+    
+    <h2>Dynamic Loading Test:</h2>
+    <div id="dynamic-results"></div>
+    
+    <script src="image-loader.js"></script>
+    <script>
+        async function testDynamicLoading() {
+            console.log('Starting dynamic loading test...');
+            
+            try {
+                const loader = new DynamicImageLoader();
+                const results = await loader.loadImagesWithFallback();
+                
+                console.log('Loader results:', results);
+                
+                const dynamicDiv = document.getElementById('dynamic-results');
+                
+                // Test projects
+                if (results.projects && results.projects.length > 0) {
+                    dynamicDiv.innerHTML += '<h3>Projects Found:</h3>';
+                    results.projects.forEach((imageSrc, index) => {
+                        const imageName = imageSrc.split('/').pop();
+                        dynamicDiv.innerHTML += `
+                            <div class="project-card">
+                                <img src="${imageSrc}" alt="Project ${index + 1}" class="project-image" onerror="this.style.display='none'; console.log('Dynamic image failed:', '${imageSrc}');">
+                                <p>${imageName}</p>
+                            </div>
+                        `;
+                    });
+                } else {
+                    dynamicDiv.innerHTML += '<p>No projects found</p>';
+                }
+                
+                // Test clients
+                if (results.clients && results.clients.length > 0) {
+                    dynamicDiv.innerHTML += '<h3>Clients Found:</h3>';
+                    results.clients.forEach((imageSrc, index) => {
+                        const imageName = imageSrc.split('/').pop();
+                        dynamicDiv.innerHTML += `
+                            <div class="project-card">
+                                <img src="${imageSrc}" alt="Client ${index + 1}" class="project-image" onerror="this.style.display='none'; console.log('Dynamic image failed:', '${imageSrc}');">
+                                <p>${imageName}</p>
+                            </div>
+                        `;
+                    });
+                } else {
+                    dynamicDiv.innerHTML += '<p>No clients found</p>';
+                }
+                
+            } catch (error) {
+                console.error('Error in dynamic loading:', error);
+                document.getElementById('dynamic-results').innerHTML = '<p>Error: ' + error.message + '</p>';
+            }
+        }
+        
+        // Run test when page loads
+        document.addEventListener('DOMContentLoaded', testDynamicLoading);
+    </script>
+</body>
+</html>

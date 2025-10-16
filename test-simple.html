@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Image Test</title>
+</head>
+<body>
+    <h1>Simple Image Loading Test</h1>
+    <div id="results"></div>
+    
+    <script src="image-loader.js"></script>
+    <script>
+        async function testLoader() {
+            const loader = new DynamicImageLoader();
+            console.log('Testing DynamicImageLoader...');
+            
+            try {
+                const results = await loader.loadImagesWithFallback();
+                console.log('Results:', results);
+                document.getElementById('results').innerHTML = 
+                    '<h2>Results:</h2><pre>' + JSON.stringify(results, null, 2) + '</pre>';
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('results').innerHTML = 
+                    '<h2>Error:</h2><p>' + error.message + '</p>';
+            }
+        }
+        
+        testLoader();
+    </script>
+</body>
+</html>
