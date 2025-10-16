@@ -203,7 +203,8 @@ class ScrollAnimations {
         // Observe elements with different animation types
         const elementsToObserve = [
             { selector: '.section-title', animation: 'fade-in-up' },
-            { selector: '.about-text', animation: 'fade-in-up' },
+            { selector: '.mission-card', animation: 'fade-in-up' },
+            { selector: '.vision-card', animation: 'fade-in-up' },
             { selector: '.service-cards', animation: 'fade-in' },
             { selector: '.service-card', animation: 'scale-in' },
             { selector: '.experts-grid', animation: 'fade-in' },

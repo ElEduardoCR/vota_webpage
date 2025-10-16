@@ -471,30 +471,97 @@ section {
     transform: translateY(0);
 }
 
-/* About Section */
-.about {
+/* Mission & Vision Section */
+.mission-vision {
     background: var(--gradient-accent);
 }
 
-.about-content {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
+.mission-vision-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: var(--space-3xl);
+    margin-top: var(--space-4xl);
 }
 
-.about-text {
-    font-size: 1.25rem;
+.mission-card,
+.vision-card {
+    background: var(--gradient-card);
+    border-radius: var(--radius-3xl);
+    padding: var(--space-2xl);
+    border: 1px solid var(--color-border-light);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-smooth);
+    opacity: 0;
+    transform: translateY(50px);
+    position: relative;
+    overflow: hidden;
+}
+
+.mission-card:hover,
+.vision-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+}
+
+.mission-card.animate,
+.vision-card.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mission-card::before,
+.vision-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+    transform: scaleX(0);
+    transition: var(--transition-smooth);
+}
+
+.mission-card:hover::before,
+.vision-card:hover::before {
+    transform: scaleX(1);
+}
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: var(--space-lg);
+    color: var(--color-accent);
+    transition: var(--transition-smooth);
+}
+
+.mission-card:hover .card-icon,
+.vision-card:hover .card-icon {
+    transform: scale(1.1);
+    color: var(--color-primary);
+}
+
+.card-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.mission-card h3,
+.vision-card h3 {
+    font-family: var(--font-family-primary);
+    font-size: 1.75rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-lg);
+    letter-spacing: -0.01em;
+}
+
+.mission-card p,
+.vision-card p {
+    font-size: 1.1rem;
     font-weight: var(--font-weight-normal);
     line-height: 1.8;
     color: var(--color-text-secondary);
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all var(--transition-smooth);
-}
-
-.about-text.animate {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 /* Services Section */
@@ -896,6 +963,16 @@ section {
     
     .hero-title {
         font-size: 3rem;
+    }
+    
+    .mission-vision-content {
+        grid-template-columns: 1fr;
+        gap: var(--space-2xl);
+    }
+    
+    .mission-card,
+    .vision-card {
+        padding: var(--space-lg);
     }
     
     .service-cards {
