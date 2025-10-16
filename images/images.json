@@ -1,26 +1,10 @@
 {
-  "experts": [
-    "eduardo.jpg",
-    "alex.jpg", 
-    "david.jpg"
-  ],
+  "experts": [],
   "projects": [
-    "proyecto-1.jpg",
-    "proyecto-2.jpg",
-    "proyecto-3.jpg",
-    "proyecto-4.jpg",
-    "proyecto-5.jpg",
-    "proyecto-6.jpg"
+    "soudage-a-larc.jpg"
   ],
   "clients": [
-    "cliente-1.png",
-    "cliente-2.png",
-    "cliente-3.png",
-    "cliente-4.png",
-    "cliente-5.png",
-    "cliente-6.png",
-    "cliente-7.png",
-    "cliente-8.png"
+    "351490060_1812936962436986_5525504241204018886_n.jpg"
   ]
 }
 
