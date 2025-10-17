@@ -1,6 +1,13 @@
 {
   "experts": [],
-  "projects": [],
+  "projects": [
+    "Dados_para_troquelado.HEIC",
+    "fabricacion_nueva.HEIC",
+    "Fixturas_aluminio.heic",
+    "Rodillos.HEIC",
+    "Soldadura.jpg",
+    "Tazas.HEIC"
+  ],
   "clients": [
     "Daniel-Logo.png",
     "Honeywell-Logo.png",

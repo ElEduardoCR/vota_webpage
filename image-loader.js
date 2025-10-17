@@ -48,15 +48,21 @@ class DynamicImageLoader {
         for (let i = 1; i <= 20; i++) {
             patterns.push(`${i}.jpg`);
             patterns.push(`${i}.png`);
+            patterns.push(`${i}.heic`);
+            patterns.push(`${i}.HEIC`);
             patterns.push(`image-${i}.jpg`);
             patterns.push(`image-${i}.png`);
+            patterns.push(`image-${i}.heic`);
+            patterns.push(`image-${i}.HEIC`);
             patterns.push(`img-${i}.jpg`);
             patterns.push(`img-${i}.png`);
+            patterns.push(`img-${i}.heic`);
+            patterns.push(`img-${i}.HEIC`);
         }
 
         // Try named patterns
         const names = ['eduardo', 'alex', 'david', 'proyecto', 'cliente', 'client'];
-        const extensions = ['jpg', 'jpeg', 'png', 'webp'];
+        const extensions = ['jpg', 'jpeg', 'png', 'webp', 'heic', 'HEIC'];
         
         for (const name of names) {
             for (const ext of extensions) {

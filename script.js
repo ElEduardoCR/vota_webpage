@@ -114,19 +114,81 @@ class FloatingNavigation {
         const card = document.createElement('div');
         card.className = 'project-card animate-on-scroll scale-in';
         
+        // Generate project info based on filename
+        const projectInfo = this.getProjectInfo(imageName, index);
+        
         card.innerHTML = `
-            <img src="images/projects/${imageName}" alt="Proyecto ${index + 1}" class="project-image" onerror="this.style.display='none';">
+            <img src="images/projects/${imageName}" alt="${projectInfo.title}" class="project-image" onerror="this.style.display='none';">
             <div class="project-info">
-                <h3 class="project-title" data-es="Proyecto de Manufactura ${index + 1}" data-en="Manufacturing Project ${index + 1}">
-                    Proyecto de Manufactura ${index + 1}
+                <h3 class="project-title" data-es="${projectInfo.title}" data-en="${projectInfo.titleEn}">
+                    ${projectInfo.title}
                 </h3>
-                <p class="project-description" data-es="Ejemplo de nuestro trabajo en manufactura de precisión" data-en="Example of our precision manufacturing work">
-                    Ejemplo de nuestro trabajo en manufactura de precisión
+                <p class="project-description" data-es="${projectInfo.description}" data-en="${projectInfo.descriptionEn}">
+                    ${projectInfo.description}
                 </p>
             </div>
         `;
         
         return card;
+    }
+    
+    getProjectInfo(imageName, index) {
+        const name = imageName.toLowerCase();
+        
+        // Project descriptions based on filename
+        const projectMap = {
+            'tazas': {
+                title: 'Manufactura de Repuestos',
+                titleEn: 'Spare Parts Manufacturing',
+                description: 'Manufactura de repuestos de maquinaria con tolerancias precisas y acabados de alta calidad',
+                descriptionEn: 'Manufacturing of machinery spare parts with precise tolerances and high-quality finishes'
+            },
+            'dados_para_troquelado': {
+                title: 'Dados para Troquelado',
+                titleEn: 'Stamping Dies',
+                description: 'Piezas con tratamiento térmico especializado para troquelado de alta precisión',
+                descriptionEn: 'Heat-treated components specialized for high-precision stamping operations'
+            },
+            'fixturas_aluminio': {
+                title: 'Fixturas de Aluminio',
+                titleEn: 'Aluminum Fixtures',
+                description: 'Fabricación de piezas y fixturas en aluminio para aplicaciones industriales especializadas',
+                descriptionEn: 'Manufacturing of aluminum parts and fixtures for specialized industrial applications'
+            },
+            'rodillos': {
+                title: 'Torneado de Rodillos',
+                titleEn: 'Roller Turning',
+                description: 'Fabricación de torneado hasta 7" de diámetro con acabados de precisión industrial',
+                descriptionEn: 'Turning manufacturing up to 7" diameter with industrial precision finishes'
+            },
+            'soldadura': {
+                title: 'Proyecto de Soldadura',
+                titleEn: 'Welding Project',
+                description: 'Desarrollo de mesa de soldadura personalizada con certificación AWS',
+                descriptionEn: 'Custom welding table development with AWS certification'
+            },
+            'fabricacion_nueva': {
+                title: 'Proyectos Únicos',
+                titleEn: 'Unique Projects',
+                description: 'Desarrollo de proyectos únicos y soluciones personalizadas de manufactura',
+                descriptionEn: 'Development of unique projects and customized manufacturing solutions'
+            }
+        };
+        
+        // Find matching project
+        for (const [key, info] of Object.entries(projectMap)) {
+            if (name.includes(key)) {
+                return info;
+            }
+        }
+        
+        // Default fallback
+        return {
+            title: `Proyecto de Manufactura ${index + 1}`,
+            titleEn: `Manufacturing Project ${index + 1}`,
+            description: 'Ejemplo de nuestro trabajo en manufactura de precisión',
+            descriptionEn: 'Example of our precision manufacturing work'
+        };
     }
     
     observeProjects() {
