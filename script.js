@@ -133,7 +133,8 @@ class FloatingNavigation {
     }
     
     getProjectInfo(imageName, index) {
-        const name = imageName.toLowerCase();
+        // Remove file extension for matching
+        const nameWithoutExt = imageName.replace(/\.[^/.]+$/, "").toLowerCase();
         
         // Project descriptions based on filename
         const projectMap = {
@@ -177,7 +178,7 @@ class FloatingNavigation {
         
         // Find matching project
         for (const [key, info] of Object.entries(projectMap)) {
-            if (name.includes(key)) {
+            if (nameWithoutExt.includes(key)) {
                 return info;
             }
         }
