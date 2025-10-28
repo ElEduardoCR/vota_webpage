@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VOXA - Manufacturing, Simple.</title>
+    <title>VOXA - Manufacture, Simple.</title>
+    <link rel="icon" type="image/png" href="images/favicon/favicon.png">
+    <link rel="shortcut icon" href="images/favicon/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/iPhone.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon/Android.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,13 +56,12 @@
     <!-- Hero Section -->
     <section class="hero" id="hero">
         <div class="hero-content">
-            <h1 class="hero-title" data-es="Manufactura, Simplificada." data-en="Manufacturing, Simple.">
-                Manufactura, Simplificada.
+            <img src="images/logos/black-logo-no-background.png?t=1727477760" alt="VOXA Logo" class="hero-logo">
+            <h1 class="hero-title" data-es="Manufactura, Simple." data-en="Manufacture, Simple.">
+                Manufactura, Simple.
             </h1>
-            <p class="hero-subtitle" data-es="Precisión mexicana basada en urgencia, confianza y resultados. Descubre cómo lo resolvemos" data-en="Mexican precision based on urgency, trust and results.<br><br>Discover how we solve it">
-                Precisión mexicana basada en urgencia, confianza y resultados.<br><br>Descubre cómo lo resolvemos<br><br>
-                <br><br>
-                <br><br>
+            <p class="hero-subtitle" data-es="Hecho en México" data-en="Made in Mexico">
+                Hecho en México
             </p>
 
         </div>
@@ -166,7 +169,7 @@
                         <p data-es="Certificación AWS (American Welding Society). Soldadura de alta calidad que cumple con los más altos estándares internacionales." data-en="AWS (American Welding Society) certification. High-quality welding that meets the highest international standards.">
                             Certificación AWS (American Welding Society). Soldadura de alta calidad que cumple con los más altos estándares internacionales.
                         </p>
-                        <div class="certification-badge">
+                        <div class="certification-badge" onclick="openCertificationModal()">
                             <span data-es="Certificado AWS" data-en="AWS Certified">Certificado AWS</span>
                         </div>
                     </div>
@@ -185,7 +188,7 @@
             <div class="experts-grid">
                 <div class="expert-card">
                     <div class="expert-image">
-                        <img src="images/experts/eduardo.jpg" alt="Eduardo Regalado" class="expert-photo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <img src="images/experts/eduardo.jpg" alt="Eduardo Regalado" class="expert-photo">
                         <div class="placeholder-avatar" style="display: none;">ER</div>
                     </div>
                     <div class="expert-info">
@@ -204,7 +207,7 @@
                 <div class="expert-card">
                     <div class="expert-image">
                         <img src="images/experts/alex.jpg" alt="Alejandro Quiñones" class="expert-photo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="placeholder-avatar" style="display: none;">AQ</div>
+                        <div class="placeholder-avatar">AQ</div>
                     </div>
                     <div class="expert-info">
                         <h3>Alejandro Quiñones</h3>
@@ -221,7 +224,7 @@
 
                 <div class="expert-card">
                     <div class="expert-image">
-                        <img src="images/experts/david.jpg" alt="David Bautista" class="expert-photo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <img src="images/experts/david.jpg" alt="David Bautista" class="expert-photo">
                         <div class="placeholder-avatar" style="display: none;">DB</div>
                     </div>
                     <div class="expert-info">
@@ -300,11 +303,27 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p data-es="© 2028 VOXA. Manufactura, Simplificada." data-en="© 2028 VOXA. Manufacturing, Simple.">
-                © 2028 VOXA. Manufactura, Simplificada.
+            <p data-es="© 2028 VOXA. Manufactura, Simple." data-en="© 2028 VOXA. Manufacture, Simple.">
+                © 2028 VOXA. Manufactura, Simple.
             </p>
         </div>
     </footer>
+
+    <!-- Certification Modal -->
+    <div id="certificationModal" class="certification-modal">
+        <div class="modal-overlay" onclick="closeCertificationModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeCertificationModal()">×</button>
+            <div class="modal-header">
+                <h3 data-es="Certificado AWS CWI" data-en="AWS CWI Certification">
+                    Certificado AWS CWI
+                </h3>
+            </div>
+            <div class="modal-body">
+                <iframe src="certificaciones/CWI-David-Bautista.pdf" frameborder="0" width="100%" height="600px"></iframe>
+            </div>
+        </div>
+    </div>
 
     <script src="image-loader.js"></script>
     <script src="script.js"></script>

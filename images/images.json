@@ -1,5 +1,8 @@
 {
-  "experts": [],
+  "experts": [
+    "eduardo.jpg",
+    "david.jpg"
+  ],
   "projects": [
     "Dados_para_troquelado.jpg",
     "fabricacion_nueva.jpg",
@@ -12,6 +15,7 @@
     "Daniel-Logo.png",
     "Honeywell-Logo.png",
     "Jabil.png",
+    "Klassen.jpg",
     "yazaki.jpg"
   ]
 }

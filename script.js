@@ -216,10 +216,8 @@ class FloatingNavigation {
                 const clientImages = images.clients || [];
                 
                 if (clientImages.length > 0) {
-                    // Create duplicate set for seamless loop
-                    const allLogos = [...clientImages, ...clientImages];
-                    
-                    allLogos.forEach((imageSrc, index) => {
+                    // Single set for individual logo slideshow
+                    clientImages.forEach((imageSrc, index) => {
                         const logoName = imageSrc.split('/').pop();
                         const clientLogo = this.createClientLogo(logoName, index);
                         clientsTrack.appendChild(clientLogo);
@@ -237,13 +235,16 @@ class FloatingNavigation {
                         'cliente-8.png'
                     ];
                     
-                    const allLogos = [...fallbackLogos, ...fallbackLogos];
-                    
-                    allLogos.forEach((logoName, index) => {
+                    fallbackLogos.forEach((logoName, index) => {
                         const clientLogo = this.createClientLogo(logoName, index);
                         clientsTrack.appendChild(clientLogo);
                     });
                 }
+                
+                // Start the carousel
+                setTimeout(() => {
+                    this.startClientCarousel();
+                }, 500);
             }
         } catch (error) {
             console.log('Client logos will be loaded when images are uploaded');
@@ -259,6 +260,38 @@ class FloatingNavigation {
         `;
         
         return logo;
+    }
+    
+    startClientCarousel() {
+        const logos = document.querySelectorAll('.client-logo');
+        if (logos.length === 0) return;
+        
+        let currentIndex = 0;
+        
+        function showNext() {
+            // Ocultar todos con transición
+            logos.forEach(logo => {
+                logo.style.opacity = '0';
+                logo.style.transform = 'translateX(300px) scale(0.8)';
+            });
+            
+            // Mostrar el actual
+            logos[currentIndex].style.opacity = '1';
+            logos[currentIndex].style.transform = 'translateX(0) scale(1)';
+            
+            // Avanzar al siguiente
+            currentIndex = (currentIndex + 1) % logos.length;
+        }
+        
+        // Mostrar el primero inmediatamente
+        logos[0].style.opacity = '1';
+        logos[0].style.transform = 'translateX(0) scale(1)';
+        currentIndex = 1;
+        
+        // Cambiar cada 2.5 segundos
+        setInterval(() => {
+            showNext();
+        }, 2500);
     }
 }
 
@@ -614,7 +647,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Console welcome message
     console.log(`
-    🏭 VOTA - Manufacturing, Simple.
+    🏭 VOXA - Manufacture, Simple.
+    🇲🇽 Hecho en México
     
     Built with:
     ✨ Apple-inspired design
@@ -635,6 +669,30 @@ document.addEventListener('visibilitychange', () => {
     } else {
         // Resume animations when tab becomes visible
         document.body.style.animationPlayState = 'running';
+    }
+});
+
+// Certification Modal Functions
+function openCertificationModal() {
+    const modal = document.getElementById('certificationModal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent body scrolling
+    }
+}
+
+function closeCertificationModal() {
+    const modal = document.getElementById('certificationModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = ''; // Restore body scrolling
+    }
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeCertificationModal();
     }
 });
 

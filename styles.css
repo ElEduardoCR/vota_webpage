@@ -367,12 +367,45 @@ body {
     position: relative;
 }
 
+.hero-logo {
+    width: clamp(240px, 30vw, 400px);
+    height: auto;
+    margin: 0 auto var(--space-xl) auto;
+    display: block;
+    max-width: 100%;
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+    animation: heroLogoAnimation 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+    z-index: 10;
+    transition: transform 0.3s ease;
+}
+
+.hero-logo:hover {
+    transform: scale(1.05);
+}
+
+@keyframes heroLogoAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.8);
+    }
+    50% {
+        transform: translateY(-10px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 .hero-title {
     font-family: var(--font-family-primary);
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: var(--font-weight-normal);
-    line-height: 0.9;
+    line-height: 1.1;
     margin-bottom: var(--space-lg);
+    padding-bottom: 0.3em;
     background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -581,7 +614,7 @@ section {
 
 .service-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--space-2xl);
     margin-top: var(--space-4xl);
 }
@@ -671,6 +704,123 @@ section {
     font-size: 0.875rem;
     font-weight: var(--font-weight-semibold);
     box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.certification-badge:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+}
+
+/* Certification Modal */
+.certification-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+}
+
+.certification-modal.active {
+    display: flex;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    position: relative;
+    margin: auto;
+    background: white;
+    border-radius: var(--radius-2xl);
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--color-background);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.modal-close:hover {
+    background: var(--color-primary);
+    color: white;
+    transform: rotate(90deg);
+}
+
+.modal-header {
+    padding: 2rem;
+    border-bottom: 1px solid var(--color-border-light);
+    background: var(--gradient-card);
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
+}
+
+.modal-body {
+    padding: 2rem;
+    overflow: auto;
+}
+
+.modal-body iframe {
+    border-radius: var(--radius-lg);
+    width: 100%;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        max-height: 85vh;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+    
+    .modal-body iframe {
+        height: 400px;
+    }
 }
 
 /* Experts Section */
@@ -865,21 +1015,25 @@ section {
     margin-top: var(--space-4xl);
     overflow: hidden;
     position: relative;
-    mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
-    -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .clients-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
     display: flex;
-    animation: slideLogos 30s linear infinite;
-    gap: var(--space-3xl);
+    justify-content: center;
     align-items: center;
 }
 
 .client-logo {
-    flex-shrink: 0;
-    width: 200px;
-    height: 100px;
+    position: absolute;
+    width: 600px;
+    height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -887,35 +1041,24 @@ section {
     border-radius: var(--radius-lg);
     padding: var(--space-lg);
     box-shadow: var(--shadow-sm);
-    transition: var(--transition-smooth);
     border: 1px solid var(--color-border-light);
-}
-
-.client-logo:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
+    opacity: 0;
+    transform: translateX(0) scale(1);
+    transition: all 0.6s ease-in-out;
 }
 
 .client-logo img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    filter: grayscale(100%) opacity(0.7);
     transition: var(--transition-smooth);
 }
 
 .client-logo:hover img {
-    filter: grayscale(0%) opacity(1);
+    transform: scale(1.05);
 }
 
-@keyframes slideLogos {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
-}
+/* Carousel animation is now controlled by JavaScript */
 
 /* Contact Section */
 .contact {
@@ -1034,8 +1177,8 @@ section {
     }
     
     .client-logo {
-        width: 150px;
-        height: 75px;
+        width: 400px;
+        height: 200px;
         padding: var(--space-sm);
     }
     
