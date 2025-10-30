@@ -104,6 +104,9 @@ class FloatingNavigation {
                 
                 // Animate projects on scroll
                 this.observeProjects();
+
+                // Apply current language to newly added project nodes
+                applyCurrentLanguageToDynamicContent();
             }
         } catch (error) {
             console.log('Projects will be loaded when images are uploaded');
@@ -245,6 +248,9 @@ class FloatingNavigation {
                 setTimeout(() => {
                     this.startClientCarousel();
                 }, 500);
+
+                // Apply current language to any newly added client nodes (for completeness)
+                applyCurrentLanguageToDynamicContent();
             }
         } catch (error) {
             console.log('Client logos will be loaded when images are uploaded');
@@ -627,6 +633,21 @@ class PerformanceOptimizer {
             lazyObserver.observe(element);
         });
     }
+}
+
+// Helper: apply current language to any elements with data-es/data-en (useful for dynamically added nodes)
+function applyCurrentLanguageToDynamicContent() {
+    const currentLang = document.documentElement.lang === 'en' ? 'en' : 'es';
+    document.querySelectorAll('[data-es], [data-en]').forEach(el => {
+        const text = el.getAttribute(`data-${currentLang}`);
+        if (text) {
+            if (el.tagName === 'HTML') {
+                el.lang = currentLang;
+            } else {
+                el.textContent = text;
+            }
+        }
+    });
 }
 
 // Initialize everything when DOM is loaded
