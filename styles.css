@@ -838,8 +838,8 @@ section {
 }
 
 .iso-logo-wrapper {
-    flex: 1 1 100%;
-    max-width: 640px;
+    flex: 0 0 320px;
+    max-width: 320px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -848,7 +848,7 @@ section {
 
 .iso-logo {
     width: 100%;
-    max-width: 640px;
+    max-width: 320px;
     filter: drop-shadow(0 12px 24px hsla(220, 13%, 13%, 0.15));
     transition: transform var(--transition-smooth), filter var(--transition-smooth);
 }
