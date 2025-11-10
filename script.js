@@ -425,10 +425,10 @@ class ScrollAnimations {
                     animationStarted = true;
                     if (progressText) {
                         const currentLang = document.documentElement.lang === 'en' ? 'en' : 'es';
-                        const loadingText = progressText.getAttribute(`data-${currentLang}`);
-                        if (loadingText) {
-                            progressText.textContent = loadingText;
-                        }
+                        const loadingText = progressText.getAttribute(`data-${currentLang}`) || progressText.textContent.trim();
+                        progressText.dataset.baseText = loadingText;
+                        progressText.dataset.animate = 'true';
+                        startIsoEllipsis(progressText);
                     }
 
                     const duration = 2000;
@@ -698,9 +698,33 @@ function applyCurrentLanguageToDynamicContent() {
                 el.lang = currentLang;
             } else {
                 el.textContent = text;
+                if (el.classList && el.classList.contains('iso-progress-text')) {
+                    el.dataset.baseText = text;
+                    if (el.dataset.animate === 'true') {
+                        startIsoEllipsis(el);
+                    }
+                }
             }
         }
     });
+}
+
+function startIsoEllipsis(element) {
+    const baseText = element.dataset.baseText || element.textContent.trim();
+    if (!baseText) return;
+
+    if (element._ellipsisInterval) {
+        clearInterval(element._ellipsisInterval);
+    }
+
+    let dotCount = 0;
+    const updateText = () => {
+        dotCount = (dotCount % 3) + 1;
+        element.textContent = `${baseText}${'.'.repeat(dotCount)}`;
+    };
+
+    updateText();
+    element._ellipsisInterval = setInterval(updateText, 500);
 }
 
 // Initialize everything when DOM is loaded
