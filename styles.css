@@ -823,6 +823,133 @@ section {
     }
 }
 
+/* ISO Certification Section */
+.iso-certification {
+    background: var(--color-surface-elevated);
+    padding: var(--space-4xl) 0;
+}
+
+.iso-certification-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3xl);
+    flex-wrap: wrap;
+}
+
+.iso-logo-wrapper {
+    flex: 0 0 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iso-logo {
+    width: 100%;
+    max-width: 180px;
+    filter: drop-shadow(0 12px 24px hsla(220, 13%, 13%, 0.15));
+    transition: transform var(--transition-smooth), filter var(--transition-smooth);
+}
+
+.iso-logo:hover {
+    transform: translateY(-6px) scale(1.02);
+    filter: drop-shadow(0 16px 32px hsla(217, 91%, 60%, 0.25));
+}
+
+.iso-text {
+    flex: 1 1 360px;
+    max-width: 640px;
+}
+
+.iso-text h2 {
+    font-size: clamp(1.9rem, 2.2vw, 2.4rem);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin-bottom: var(--space-md);
+    letter-spacing: -0.01em;
+}
+
+.iso-progress-text {
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.iso-progress {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-md);
+}
+
+.iso-progress-track {
+    flex: 1 1 280px;
+    background: var(--color-border-light);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    height: 18px;
+    position: relative;
+    box-shadow: inset 0 2px 4px hsla(220, 13%, 13%, 0.08);
+}
+
+.iso-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, hsl(217, 91%, 60%), hsl(198, 94%, 60%));
+    border-radius: inherit;
+    transition: width 0.3s ease-out;
+}
+
+.iso-progress-label {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    min-width: 72px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.iso-note {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    max-width: 32ch;
+}
+
+@media (max-width: 768px) {
+    .iso-certification {
+        padding: var(--space-3xl) 0;
+        text-align: center;
+    }
+
+    .iso-certification-content {
+        flex-direction: column;
+        gap: var(--space-2xl);
+    }
+
+    .iso-text {
+        max-width: 100%;
+    }
+
+    .iso-progress {
+        justify-content: center;
+    }
+
+    .iso-progress-track {
+        flex-basis: 100%;
+    }
+
+    .iso-progress-label {
+        text-align: center;
+    }
+
+    .iso-note {
+        margin: 0 auto;
+    }
+}
+
 /* Experts Section */
 .experts {
     background: var(--gradient-accent);

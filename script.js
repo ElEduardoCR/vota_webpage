@@ -363,6 +363,7 @@ class ScrollAnimations {
     
     init() {
         this.setupIntersectionObserver();
+        this.setupIsoProgressObserver();
         this.setupScrollEffects();
         this.animateHeroElements();
     }
@@ -390,6 +391,7 @@ class ScrollAnimations {
             { selector: '.vision-card', animation: 'fade-in-up' },
             { selector: '.service-cards', animation: 'fade-in' },
             { selector: '.service-card', animation: 'scale-in' },
+            { selector: '.iso-certification-content', animation: 'fade-in-up' },
             { selector: '.experts-grid', animation: 'fade-in' },
             { selector: '.expert-card', animation: 'scale-in' },
             { selector: '.contact-message p', animation: 'fade-in-up' },
@@ -405,6 +407,57 @@ class ScrollAnimations {
         });
     }
     
+    setupIsoProgressObserver() {
+        const isoSection = document.querySelector('.iso-certification');
+        if (!isoSection) return;
+
+        const progressBar = isoSection.querySelector('.iso-progress-bar');
+        const progressLabel = isoSection.querySelector('.iso-progress-label');
+        const progressText = isoSection.querySelector('.iso-progress-text');
+
+        if (!progressBar || !progressLabel) return;
+
+        let animationStarted = false;
+        const targetValue = parseInt(progressBar.dataset.target || '80', 10);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animationStarted) {
+                    animationStarted = true;
+                    if (progressText) {
+                        const currentLang = document.documentElement.lang === 'en' ? 'en' : 'es';
+                        const loadingText = progressText.getAttribute(`data-${currentLang}`);
+                        if (loadingText) {
+                            progressText.textContent = loadingText;
+                        }
+                    }
+
+                    const duration = 2000;
+                    const startTime = performance.now();
+
+                    const animate = (now) => {
+                        const elapsed = now - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const currentValue = Math.round(progress * targetValue);
+
+                        progressBar.style.width = `${currentValue}%`;
+                        progressLabel.textContent = `${currentValue}%`;
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            progressBar.style.width = `${targetValue}%`;
+                            progressLabel.textContent = `${targetValue}%`;
+                        }
+                    };
+
+                    requestAnimationFrame(animate);
+                }
+            });
+        }, { threshold: 0.4 });
+
+        observer.observe(isoSection);
+    }
+
     staggerCards(cards) {
         cards.forEach((card, index) => {
             setTimeout(() => {
